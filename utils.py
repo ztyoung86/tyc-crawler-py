@@ -4,15 +4,13 @@ import os
 from io import BytesIO
 
 import aiohttp
-import requests
 from PIL import Image, ImageDraw, ImageFont
 from bs4 import BeautifulSoup
 from fontTools.ttLib import TTFont
 
 URL_TEMPLATE = 'https://static.tianyancha.com/fonts-styles/fonts/%s/%s/tyc-num.woff'
 IMAGE_DIR = 'images/'
-WOFF_DIR = 'fonts_woff/'
-TTX_DIR = 'fonts/'
+WOFF_DIR = 'fonts/'
 
 
 async def fetch_content(url):
@@ -22,7 +20,7 @@ async def fetch_content(url):
 
 
 async def download_woff(woff_name):
-    woff_file_path = 'fonts_woff/%s.woff' % woff_name
+    woff_file_path = os.path.join(WOFF_DIR, woff_name + '.woff')
     # if os.path.exists(woff_file_path):
     #     return woff_file_path
     woff_url = URL_TEMPLATE % (woff_name[:2], woff_name)
@@ -94,7 +92,7 @@ class FontHandler:
         #     return font
         font = TTFont(self.woff_file_path)
         if save_xml:
-            ttx_file_path = 'fonts/%s.ttx' % self.woff_name
+            ttx_file_path = os.path.join(WOFF_DIR, self.woff_name + '.ttx')
             font.saveXML(ttx_file_path)
             print('缓存ttx文件到' + ttx_file_path)
         return font
@@ -125,4 +123,4 @@ def MD5(content):
 
 
 if __name__ == '__main__':
-    print(FontHandler('c4605357').save_image('心'))
+    print(FontHandler('c4605357','fonts/c4605357.woff').save_image('心'))
