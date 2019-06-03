@@ -9,8 +9,14 @@ from bs4 import BeautifulSoup
 from fontTools.ttLib import TTFont
 
 URL_TEMPLATE = 'https://static.tianyancha.com/fonts-styles/fonts/%s/%s/tyc-num.woff'
+
 IMAGE_DIR = 'images/'
+if not os.path.exists(IMAGE_DIR):
+    os.mkdir(IMAGE_DIR)
+
 WOFF_DIR = 'fonts/'
+if not os.path.exists(WOFF_DIR):
+    os.mkdir(WOFF_DIR)
 
 
 async def fetch_content(url):
