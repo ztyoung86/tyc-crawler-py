@@ -1,19 +1,18 @@
-from fontTools.ttLib import TTFont
-import requests
 import os
-import json
+
+import requests
 from bs4 import BeautifulSoup
 from rediscluster import StrictRedisCluster
 
+import config
 import font_decode
 from utils import FontHandler
 
 URL_TEMPLATE = 'https://static.tianyancha.com/fonts-styles/fonts/%s/%s/tyc-num.woff'
-DECODE_KEY = 'tyc_decode'
-REVERSE_DECODE_KEY = 'tyc_decode_reverse'
-
-startup_nodes = [{"host": "172.22.5.147", "port": "7000"}]
-rc = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
+DECODE_KEY = config.DECODE_KEY
+REVERSE_DECODE_KEY = config.REVERSE_DECODE_KEY
+redis_nodes = config.redis_nodes
+rc = StrictRedisCluster(startup_nodes=redis_nodes, decode_responses=True)
 
 def download_woff(woff_name):
     woff_file_path = 'fonts_woff/%s.woff' % woff_name

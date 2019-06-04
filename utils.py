@@ -18,7 +18,6 @@ WOFF_DIR = 'fonts/'
 if not os.path.exists(WOFF_DIR):
     os.mkdir(WOFF_DIR)
 
-
 async def fetch_content(url):
     async with aiohttp.ClientSession(read_timeout=None) as session:
         async with session.get(url) as response:
@@ -41,15 +40,11 @@ async def download_woff(woff_name):
 
 
 class FontHandler:
-    @classmethod
-    async def create(cls, woff_name):
-        woff_file_path = await download_woff(woff_name)
-        return FontHandler(woff_name, woff_file_path)
 
-    def __init__(self, woff_name, woff_file_path):
+    def __init__(self, woff_name):
         print('handler of %s initializing...' % woff_name)
         self.woff_name = woff_name
-        self.woff_file_path = woff_file_path
+        self.woff_file_path = os.path.join(WOFF_DIR, woff_name + '.woff')
         self.__font = self.__fetch_font()
         self.__char_start_index = self.__font.getGlyphID('_')
         self.__reverse_cmap = {v: k for k, v in self.__font.getBestCmap().items()}

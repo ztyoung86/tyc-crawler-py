@@ -3,8 +3,9 @@ import traceback
 
 import cx_Oracle
 
-os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
+import config
 
+os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 def fetch_dict(db, sql):
     results = []
@@ -65,11 +66,11 @@ def insert_or_update_font(db, woff_dicts, table_name):
 
 
 if __name__ == '__main__':
-    ip = '172.22.5.61'
-    port = 1526
-    db = 'dcappdb1'
-    username = "crawlm"
-    pwd = "crawlm_Sd"
+    ip = config.ip
+    port = config.port
+    database = config.db
+    username = config.username
+    pwd = config.pwd
 
     dsn = cx_Oracle.makedsn(ip, port, db)
     db = cx_Oracle.connect(username, pwd, dsn)
